@@ -1,4 +1,4 @@
-package io.github.Patrikts.clientes.rest;
+package io.github.Patrikts.clientes.rest.exception;
 
 import io.github.Patrikts.clientes.rest.exception.ApiErrors;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity handleResponseStatusException(ResponseStatusException ex){
-        String mensagemErro = ex.getMessage();
+        String mensagemErro = ex.getReason();
         HttpStatus codigoStatus = ex.getStatus();
         ApiErrors apiErrors = new ApiErrors(mensagemErro);
         return new ResponseEntity(apiErrors, codigoStatus);

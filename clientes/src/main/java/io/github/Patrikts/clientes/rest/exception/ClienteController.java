@@ -1,4 +1,4 @@
-package io.github.Patrikts.clientes.rest;
+package io.github.Patrikts.clientes.rest.exception;
 
 import io.github.Patrikts.clientes.model.entity.Cliente;
 import io.github.Patrikts.clientes.model.repository.ClienteRepository;
@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.PrePersist;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -19,6 +20,11 @@ public class ClienteController {
     @Autowired
     public ClienteController(ClienteRepository repository) {
         this.repository = repository;
+    }
+
+    @GetMapping
+    public List<Cliente> obterTodos(){
+        return repository.findAll();
     }
 
     @PostMapping
@@ -48,7 +54,8 @@ public class ClienteController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar( @PathVariable Integer id, @RequestBody Cliente clienteAtualizado ) {
+    public void atualizar( @PathVariable Integer id,
+                           @RequestBody Cliente clienteAtualizado ) {
         repository
                 .findById(id)
                 .map( cliente -> {
